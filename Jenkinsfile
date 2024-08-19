@@ -1,16 +1,10 @@
 pipeline {
     
-    agent { 
-        node{
-            label "dev"
-            
-        }
-    }
-    
+    agent any
     stages{
         stage("Clone Code"){
             steps{
-                git url: "https://github.com/LondheShubham153/django-notes-app.git", branch: "main"
+                git url: "https://github.com/rahat3783/django-notes-project.git", branch: "main"
                 echo "Aaj toh LinkedIn Post bannta hai boss"
             }
         }
@@ -23,22 +17,22 @@ pipeline {
             steps{
                 withCredentials(
                     [usernamePassword(
-                        credentialsId:"dockerCreds",
-                        passwordVariable:"dockerHubPass", 
-                        usernameVariable:"dockerHubUser"
+                        credentialsId:"dockerid",
+                        passwordVariable:"dockerpass", 
+                        usernameVariable:"dockeruser"
                         )
                     ]
                 ){
-                sh "docker image tag notes-app-jenkins:latest ${env.dockerHubUser}/notes-app-jenkins:latest"
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.dockerHubUser}/notes-app-jenkins:latest"
+                sh "docker image tag notes-app-jenkins:latest ${env.dockeruser}/notes-app-jenkins:latest"
+                sh "docker login -u ${env.dockeruser} -p ${env.dockerpass}"
+                sh "docker push ${env.dockeruser}/notes-app-jenkins:latest"
                 }
             }
         }
         
         stage("Deploy"){
             steps{
-                sh "docker compose up -d"
+                sh "docker run -itd ${env.dockeruser}/notes-app-jenkins:latest"
             }
         }
     }
