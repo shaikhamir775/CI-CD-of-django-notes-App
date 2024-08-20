@@ -10,7 +10,7 @@ pipeline {
         }
         stage("Build & Test"){
             steps{
-                sh "docker build . -t champ3783/notes-app-jenkins:1"
+                sh "docker build . -t notes-app-jenkins:1"
             }
         }
         stage("Push to DockerHub"){
