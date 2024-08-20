@@ -32,7 +32,7 @@ pipeline {
         
         stage("Deploy"){
             steps{
-                sh "docker run -itd ${dockeruser}/notes-app-jenkins:1"
+                sh "docker run -itd champ3783/notes-app-jenkins:1"
             }
         }
     }
