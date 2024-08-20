@@ -23,7 +23,7 @@ pipeline {
                         )
                     ]
                 ){
-                sh "docker image tag notes-app-jenkins:latest ${env.dockeruser}/notes-app-jenkins:1"
+                sh "docker image tag notes-app-jenkins:1 ${env.dockeruser}/notes-app-jenkins:1"
                 sh "docker login -u ${env.dockeruser} -p ${env.dockerpass}"
                 sh "docker push ${env.dockeruser}/notes-app-jenkins:1"
                 }
