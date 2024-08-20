@@ -10,7 +10,7 @@ pipeline {
         }
         stage("Build & Test"){
             steps{
-                sh "docker build . -t notes-app-jenkins:latest"
+                sh "docker build . -t notes-app-jenkins:1"
             }
         }
         stage("Push to DockerHub"){
@@ -23,16 +23,16 @@ pipeline {
                         )
                     ]
                 ){
-                sh "docker image tag notes-app-jenkins:latest ${env.dockeruser}/notes-app-jenkins:latest"
+                sh "docker image tag notes-app-jenkins:latest ${env.dockeruser}/notes-app-jenkins:1"
                 sh "docker login -u ${env.dockeruser} -p ${env.dockerpass}"
-                sh "docker push ${env.dockeruser}/notes-app-jenkins:latest"
+                sh "docker push ${env.dockeruser}/notes-app-jenkins:1"
                 }
             }
         }
         
         stage("Deploy"){
             steps{
-                sh "docker run -itd ${env.dockeruser}/notes-app-jenkins:latest"
+                sh "docker run -itd ${env.dockeruser}/notes-app-jenkins:1"
             }
         }
     }
