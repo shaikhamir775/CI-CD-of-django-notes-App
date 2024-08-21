@@ -36,7 +36,7 @@ pipeline {
         stage("Deploy"){
             steps{
                 sh "docker network create mynet"
-                sh "docker run -d -p 8000:8000 ${env.dockeruser}/notes-app-jenkins:1"
+                sh "docker run -d --network mynet ${env.dockeruser}/notes-app-jenkins:1"
             }
         }
     }
