@@ -35,7 +35,7 @@ pipeline {
         
         stage("Deploy"){
             steps{
-                sh "docker network create mynet1"
+                
                 sh "docker run -d --network mynet1 champ3783/notes-app-jenkins:1"
             }
         }
