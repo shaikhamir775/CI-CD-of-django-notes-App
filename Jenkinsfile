@@ -5,12 +5,13 @@ pipeline {
         stage("Clone Code"){
             steps{
                 git url: "https://github.com/rahat3783/django-notes-project.git", branch: "main"
-                echo "Aaj toh LinkedIn Post bannta hai boss"
+                echo "successfully clonning"
             }
         }
         stage("Build & Test"){
             steps{
                 sh "docker build . -t notes-app-jenkins:1"
+                echo "successfully build and test code"
             }
         }
         stage("Push to DockerHub"){
@@ -27,12 +28,15 @@ pipeline {
                 sh "docker login -u ${env.dockeruser} -p ${env.dockerpass}"
                 sh "docker push ${env.dockeruser}/notes-app-jenkins:1"
                 }
+                echo "successfully image pushed to ${env.dockeruser} docker repo"
             }
+            
         }
         
         stage("Deploy"){
             steps{
-                sh "docker-compose up -d"
+                sh "docker network create mynet"
+                sh "docker run -d -p 8000:8000 ${env.dockeruser}/notes-app-jenkins:1"
             }
         }
     }
