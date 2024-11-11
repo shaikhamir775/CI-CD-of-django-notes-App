@@ -10,7 +10,7 @@ pipeline {
         }
         stage("Build & Test"){
             steps{
-                sh "docker build . -t notes-app-jenkins:1"
+                sh "docker build . -t notes-app-jenkins:latest"
                 echo "successfully build and test code"
             }
         }
@@ -24,9 +24,9 @@ pipeline {
                         )
                     ]
                 ){
-                sh "docker image tag notes-app-jenkins:1 ${env.dockeruser}/notes-app-jenkins:1"
+                sh "docker image tag notes-app-jenkins:latest ${env.dockeruser}/notes-app-jenkins:latest"
                 sh "docker login -u ${env.dockeruser} -p ${env.dockerpass}"
-                sh "docker push ${env.dockeruser}/notes-app-jenkins:1"
+                sh "docker push ${env.dockeruser}/notes-app-jenkins:latest"
                 }
                 echo "successfully image pushed to  docker repo"
             }
@@ -36,7 +36,7 @@ pipeline {
         stage("Deploy"){
             steps{
                 
-                sh "docker run -d -p 8000:8000 --network mynet1 champ3783/notes-app-jenkins:1"
+                sh "docker compose up -d"
             }
         }
     }
